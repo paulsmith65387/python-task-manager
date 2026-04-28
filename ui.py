@@ -11,10 +11,30 @@ def print_menu():
     print("4 : Delete a task")
     print("5 : Update task status")
     print("6 : View all tasks")
+    print("7 : View all todo tasks")
+    print("8 : View all done tasks")
+    print("9 : View all in progress tasks")
+    print("10 : Search tasks by title/notes")
+    print("11 : View all tasks sorted by title")
     print("Q : Quit")
-    
+
+
 def get_choice():
-    allowed_choices = {"1", "2", "3", "4", "5", "6", "q", "Q"}
+    allowed_choices = {
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "q",
+        "Q",
+    }
     while True:
         choice = input("Enter a menu option, or Q to quit: ")
         if choice in allowed_choices:
@@ -24,11 +44,18 @@ def get_choice():
 
 def string_input(prompt):
     while True:
-        strng = input(prompt)
-        if strng == "":
+        string_input = input(prompt)
+        if string_input == "":
             print("Field cannot be empty, please try again.")
             continue
-        return strng
+        return string_input
+
+
+def string_input_blank_allowed(prompt):
+    string_input = input(prompt)
+    if not string_input == "" and string_input.strip() == "":
+        return ""
+    return string_input
 
 
 def get_status():
@@ -40,7 +67,8 @@ def get_status():
             print("Please enter a valid status")
             continue
         return status
-        
+
+
 def get_task_num(tasks):
     allowed_values = {t["id"] for t in tasks}
     while True:
@@ -54,7 +82,8 @@ def get_task_num(tasks):
             return task_int
         else:
             print("Please enter a valid current task number from", allowed_values)
-       
+
+
 def view_task(task):
     if task is None:
         return "Not found"
@@ -66,5 +95,22 @@ def view_task(task):
     )
 
 
+def verify_choice(prompt):
+    allowed_choices = {"y", "n"}
+    while True:
+        choice = string_input_blank_allowed(prompt).lower().strip()
+        if choice in allowed_choices:
+            return choice
+        else:
+            print("Please enter Y or N.")
+        continue
+
+
+def view_short(task):
+    if task is None:
+        return "Not found"
+    return f"#{task['id']} [{task['status'].strip()}] {task['title'].strip()}"
+
+
 def view_all(tasks):
-    return "\n\n".join(view_task(t) for t in tasks)
+    return "\n\n".join(view_short(t) for t in tasks)
