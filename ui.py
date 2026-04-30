@@ -44,18 +44,16 @@ def get_choice():
 
 def string_input(prompt):
     while True:
-        string_input = input(prompt)
-        if string_input == "":
+        raw_text = input(prompt)
+        if raw_text == "":
             print("Field cannot be empty, please try again.")
             continue
-        return string_input
+        return raw_text
 
 
 def string_input_blank_allowed(prompt):
-    string_input = input(prompt)
-    if not string_input == "" and string_input.strip() == "":
-        return ""
-    return string_input
+    raw_text = input(prompt)
+    return raw_text
 
 
 def get_status():
@@ -74,12 +72,12 @@ def get_task_num(tasks):
     while True:
         task_number = input("Enter task id: ")
         try:
-            task_int = int(task_number)
+            task_integer = int(task_number)
         except ValueError:
             print("Please enter a valid integer")
             continue
-        if task_int in allowed_values:
-            return task_int
+        if task_integer in allowed_values:
+            return task_integer
         else:
             print("Please enter a valid current task number from", allowed_values)
 
@@ -106,11 +104,11 @@ def verify_choice(prompt):
         continue
 
 
-def view_short(task):
+def view_task_short_form(task):
     if task is None:
         return "Not found"
     return f"#{task['id']} [{task['status'].strip()}] {task['title'].strip()}"
 
 
 def view_all(tasks):
-    return "\n\n".join(view_short(t) for t in tasks)
+    return "\n\n".join(view_task_short_form(t) for t in tasks)

@@ -1,7 +1,5 @@
 from storage import load_tasks, save_tasks
 
-import logic
-
 from logic import (
     validate_tasks,
     update_task,
@@ -89,7 +87,7 @@ def main():
             )
         elif title_flag == "unchanged" and notes_flag == "new_value":
             print(
-                "\nThe following change has been made: notes field updated.:\n",
+                "\nThe following change has been made: notes field updated:\n",
                 view_task(
                     update_task(tasks, None, final_notes, task_id),
                 ),
@@ -136,11 +134,14 @@ def main():
             return  # back to menu
 
         status = get_status()
-        print(
-            "\nThe following update has been made:\n",
-            view_task(set_task_status(task, status)),
-        )
-        save_tasks(tasks)
+        if status != task["status"]:
+            print(
+                "\nThe following update has been made:\n",
+                view_task(set_task_status(task, status)),
+            )
+            save_tasks(tasks)
+        else:
+            print("\nNo changes made:\n", view_task(task))
         return
 
     def cmd_view_all():

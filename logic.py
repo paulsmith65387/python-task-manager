@@ -113,29 +113,3 @@ def filter_by_status(tasks, status):
     status = normalize_status(status)
     filtered = [t for t in tasks if t["status"] == status]
     return filtered
-
-
-def validate_tasks(tasks):
-    if not isinstance(tasks, list):
-        return False
-
-    required_keys = set(REQUIRED_SCHEMA)
-
-    for t in tasks:
-        if not isinstance(t, dict):
-            return False
-
-        if set(t.keys()) != required_keys:
-            return False
-
-        for key, expected_type in REQUIRED_SCHEMA.items():
-            # bool is a subclass of int, so guard id explicitly
-            if key == "id" and isinstance(t["id"], bool):
-                return False
-            if not isinstance(t[key], expected_type):
-                return False
-
-        if normalize_status(t["status"]) not in ALLOWED_STATUSES:
-            return False
-
-    return True
