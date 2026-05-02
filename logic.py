@@ -1,8 +1,16 @@
-REQUIRED_SCHEMA = {"id": int, "title": str, "status": str, "notes": str}
+REQUIRED_SCHEMA = {
+    "id": int,
+    "title": str,
+    "status": str,
+    "priority": str,
+    "notes": str,
+}
+
 ALLOWED_STATUSES = {"todo", "in progress", "done"}
+ALLOWED_PRIORITY_LEVELS = {"low", "medium", "high"}
 
 
-def normalize_status(value):
+def normalize_value(value):
     return value.strip().lower()
 
 
@@ -26,7 +34,9 @@ def validate_tasks(tasks):
             if not isinstance(t[key], expected_type):
                 return False
 
-        if normalize_status(t["status"]) not in ALLOWED_STATUSES:
+        if normalize_value(t["status"]) not in ALLOWED_STATUSES:
+            return False
+        if normalize_value(t["priority"]) not in ALLOWED_PRIORITY_LEVELS:
             return False
 
     return True
@@ -47,11 +57,12 @@ def find_task(tasks, task_id):
     return None
 
 
-def add_task(tasks, title, status, notes):
+def add_task(tasks, title, status, priority, notes):
     task = {
         "id": next_id(tasks),
         "title": title,
-        "status": normalize_status(status),
+        "status": normalize_value(status),
+        "priority": normalize_value(priority),
         "notes": notes,
     }
     tasks.append(task)
@@ -80,10 +91,20 @@ def delete_task(tasks, task_id):
 def set_task_status(task, status):
     if task is None:
         return None
-    status = normalize_status(status)
+    status = normalize_value(status)
     if status not in ALLOWED_STATUSES:
         return None
     task["status"] = status
+    return task
+
+
+def set_task_priority(task, priority):
+    if task is None:
+        return None
+    priority = normalize_value(priority)
+    if priority not in ALLOWED_PRIORITY_LEVELS:
+        return None
+    task["priority"] = priority
     return task
 
 
@@ -110,6 +131,6 @@ def get_final_value(old_val, new_val):
 
 
 def filter_by_status(tasks, status):
-    status = normalize_status(status)
+    status = normalize_value(status)
     filtered = [t for t in tasks if t["status"] == status]
     return filtered

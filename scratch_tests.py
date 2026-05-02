@@ -24,7 +24,13 @@ validate_cases = [
     {
         "name": "valid task list",
         "tasks": [
-            {"id": 1, "title": "Buy milk", "status": "todo", "notes": "Check fridge"}
+            {
+                "id": 1,
+                "title": "Buy milk",
+                "status": "todo",
+                "priority": "medium",
+                "notes": "Check fridge",
+            }
         ],
         "expected": True,
     },
@@ -34,6 +40,7 @@ validate_cases = [
             "id": 1,
             "title": "Buy milk",
             "status": "todo",
+            "priority": "medium",
             "notes": "Check fridge",
         },
         "expected": False,
@@ -45,18 +52,21 @@ validate_cases = [
     },
     {
         "name": "missing notes key",
-        "tasks": [{"id": 1, "title": "Buy milk", "status": "todo"}],
+        "tasks": [
+            {"id": 1, "title": "Buy milk", "priority": "medium", "status": "todo"}
+        ],
         "expected": False,
     },
     {
-        "name": "extra priority key",
+        "name": "extra due date key",
         "tasks": [
             {
                 "id": 1,
                 "title": "Buy milk",
                 "status": "todo",
-                "notes": "Check fridge",
                 "priority": "high",
+                "notes": "Check fridge",
+                "due date": "25.11.2026",
             }
         ],
         "expected": False,
@@ -64,7 +74,13 @@ validate_cases = [
     {
         "name": "id is bool",
         "tasks": [
-            {"id": True, "title": "Buy milk", "status": "todo", "notes": "Check fridge"}
+            {
+                "id": True,
+                "title": "Buy milk",
+                "status": "todo",
+                "priority": "high",
+                "notes": "Check fridge",
+            }
         ],
         "expected": False,
     },
@@ -75,6 +91,7 @@ validate_cases = [
                 "id": 1,
                 "title": "Buy milk",
                 "status": "cancelled",
+                "priority": "high",
                 "notes": "Check fridge",
             }
         ],
@@ -87,10 +104,49 @@ validate_cases = [
                 "id": 1,
                 "title": "Buy milk",
                 "status": "  TODO  ",
+                "priority": "high",
                 "notes": "Check fridge",
             }
         ],
         "expected": True,
+    },
+    {
+        "name": "invalid priority",
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Buy milk",
+                "status": "todo",
+                "priority": "urgent",
+                "notes": "Check fridge",
+            }
+        ],
+        "expected": False,
+    },
+    {
+        "name": "mixed case priority level with spaces",
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Buy milk",
+                "status": "todo",
+                "priority": "    HiGh     ",
+                "notes": "Check fridge",
+            }
+        ],
+        "expected": True,
+    },
+    {
+        "name": "missing priority key",
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Buy milk",
+                "status": "todo",
+                "notes": "Check fridge",
+            }
+        ],
+        "expected": False,
     },
 ]
 
@@ -108,36 +164,42 @@ tasks = [
         "id": 1,
         "title": "Buy milk",
         "status": "todo",
+        "priority": "high",
         "notes": "Check fridge and bread",
     },
     {
         "id": 2,
         "title": "Email dentist",
         "status": "done",
+        "priority": "high",
         "notes": "Ask about June check-up",
     },
     {
         "id": 3,
         "title": "Book train tickets",
         "status": "in progress",
+        "priority": "high",
         "notes": "London trip with family",
     },
     {
         "id": 4,
         "title": "Fix bike brake",
         "status": "todo",
+        "priority": "high",
         "notes": "Rear brake rubbing slightly",
     },
     {
         "id": 5,
         "title": "Submit meter reading",
         "status": "done",
+        "priority": "high",
         "notes": "Electricity account",
     },
     {
         "id": 6,
         "title": "Plan coding session",
         "status": "in progress",
+        "priority": "high",
         "notes": "Test filter_by_status",
     },
 ]
@@ -166,10 +228,16 @@ for t in status_filter_cases:
 print("\nTesting sorting by title\n")
 
 messy_sort_tasks = [
-    {"id": 1, "title": "  banana", "status": "todo", "notes": ""},
-    {"id": 2, "title": "Apple", "status": "todo", "notes": ""},
-    {"id": 3, "title": "cherry", "status": "todo", "notes": ""},
-    {"id": 4, "title": "  apricot", "status": "todo", "notes": ""},
+    {"id": 1, "title": "  banana", "status": "todo", "priority": "low", "notes": ""},
+    {"id": 2, "title": "Apple", "status": "todo", "priority": "medium", "notes": ""},
+    {"id": 3, "title": "cherry", "status": "todo", "priority": "high", "notes": ""},
+    {
+        "id": 4,
+        "title": "  apricot",
+        "status": "todo",
+        "priority": "medium",
+        "notes": "",
+    },
 ]
 
 expected_ids = [2, 4, 1, 3]
@@ -182,23 +250,32 @@ if not passed:
 print("\nTesting search by keyword\n")
 
 tasks = [
-    {"id": 1, "title": "Buy milk", "status": "todo", "notes": "Check fridge and bread"},
+    {
+        "id": 1,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Check fridge and bread",
+    },
     {
         "id": 2,
         "title": "Email dentist",
         "status": "done",
+        "priority": "high",
         "notes": "Ask about June check-up",
     },
     {
         "id": 3,
         "title": "Book train tickets",
         "status": "in progress",
+        "priority": "high",
         "notes": "London trip with family",
     },
     {
         "id": 4,
         "title": "Fix bike brake",
         "status": "todo",
+        "priority": "high",
         "notes": "Rear brake rubbing slightly",
     },
 ]

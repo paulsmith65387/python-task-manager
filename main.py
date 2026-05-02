@@ -11,6 +11,7 @@ from logic import (
     search_by_keywords,
     sort_tasks_by_title,
     get_final_value,
+    set_task_priority,
 )
 
 from ui import (
@@ -21,6 +22,7 @@ from ui import (
     view_all,
     view_task,
     get_status,
+    get_priority_level,
     string_input_blank_allowed,
     verify_choice,
 )
@@ -32,10 +34,11 @@ def main():
     def cmd_add_task():
         title = string_input("Enter task title: ")
         status = get_status()
+        priority = get_priority_level()
         notes = string_input("Enter notes: ")
         print(
             "\n The following task has been added:\n",
-            add_task(tasks, title, status, notes),
+            add_task(tasks, title, status, priority, notes),
         )
         save_tasks(tasks)
 
@@ -144,6 +147,28 @@ def main():
             print("\nNo changes made:\n", view_task(task))
         return
 
+    def cmd_update_priority_level():
+        if not tasks:
+            print("No tasks to update.")
+            return
+        task_id = get_task_num(tasks)
+        task = find_task(tasks, task_id)
+
+        if task is None:
+            print("Task not found.")
+            return  # back to menu
+
+        priority = get_priority_level()
+        if priority != task["priority"]:
+            print(
+                "\nThe following update has been made:\n",
+                view_task(set_task_priority(task, priority)),
+            )
+            save_tasks(tasks)
+        else:
+            print("\nNo changes made:\n", view_task(task))
+        return
+
     def cmd_view_all():
         if not tasks:
             print("\nNo tasks yet, use option 1 to add a task.")
@@ -204,6 +229,7 @@ def main():
         "9": cmd_view_in_progress,
         "10": cmd_search_tasks,
         "11": cmd_sort_tasks,
+        "12": cmd_update_priority_level,
     }
 
     if not validate_tasks(tasks):

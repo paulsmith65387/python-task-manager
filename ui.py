@@ -1,4 +1,4 @@
-from logic import normalize_status, ALLOWED_STATUSES
+from logic import normalize_value, ALLOWED_STATUSES, ALLOWED_PRIORITY_LEVELS
 
 
 def print_menu():
@@ -16,6 +16,7 @@ def print_menu():
     print("9 : View all in progress tasks")
     print("10 : Search tasks by title/notes")
     print("11 : View all tasks sorted by title")
+    print("12 : Update task priority level")
     print("Q : Quit")
 
 
@@ -32,6 +33,7 @@ def get_choice():
         "9",
         "10",
         "11",
+        "12",
         "q",
         "Q",
     }
@@ -58,13 +60,24 @@ def string_input_blank_allowed(prompt):
 
 def get_status():
     while True:
-        status = normalize_status(
+        status = normalize_value(
             input("Enter task status. Options: todo, in progress, done: ")
         )
         if status not in ALLOWED_STATUSES:
             print("Please enter a valid status")
             continue
         return status
+
+
+def get_priority_level():
+    while True:
+        priority = normalize_value(
+            input("Enter task priority level: Options: low, medium, high: ")
+        )
+        if priority not in ALLOWED_PRIORITY_LEVELS:
+            print("Please enter a valid priority level")
+            continue
+        return priority
 
 
 def get_task_num(tasks):
@@ -89,6 +102,7 @@ def view_task(task):
         f"\nTask number: {task['id']}\n"
         f"Task Title: {task['title']}\n"
         f"Task Status: {task['status']}\n"
+        f"Priority Level: {task['priority']}\n"
         f"Notes: {task['notes']}"
     )
 
@@ -107,7 +121,7 @@ def verify_choice(prompt):
 def view_task_short_form(task):
     if task is None:
         return "Not found"
-    return f"#{task['id']} [{task['status'].strip()}] {task['title'].strip()}"
+    return f"#{task['id']} [{task['status'].strip()}] [{task['priority'].strip()}] {task['title'].strip()}"
 
 
 def view_all(tasks):
