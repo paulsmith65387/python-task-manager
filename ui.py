@@ -17,6 +17,7 @@ def print_menu():
     print("10 : Search tasks by title/notes")
     print("11 : View all tasks sorted by title")
     print("12 : Update task priority level")
+    print("13 : Filter tasks by priority level")
     print("Q : Quit")
 
 
@@ -34,6 +35,7 @@ def get_choice():
         "10",
         "11",
         "12",
+        "13",
         "q",
         "Q",
     }
@@ -69,11 +71,9 @@ def get_status():
         return status
 
 
-def get_priority_level():
+def get_priority_level(prompt):
     while True:
-        priority = normalize_value(
-            input("Enter task priority level: Options: low, medium, high: ")
-        )
+        priority = normalize_value(input(prompt))
         if priority not in ALLOWED_PRIORITY_LEVELS:
             print("Please enter a valid priority level")
             continue

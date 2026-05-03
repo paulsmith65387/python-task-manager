@@ -134,3 +134,9 @@ def filter_by_status(tasks, status):
     status = normalize_value(status)
     filtered = [t for t in tasks if t["status"] == status]
     return filtered
+
+
+def filter_by_priority_level(tasks, priority):
+    priority = normalize_value(priority)
+    filtered = [t for t in tasks if t["priority"] == priority]
+    return filtered

@@ -1,6 +1,7 @@
 from logic import (
     validate_tasks,
     filter_by_status,
+    filter_by_priority_level,
     search_by_keywords,
     sort_tasks_by_title,
     get_final_value,
@@ -159,7 +160,7 @@ for t in validate_cases:
         all_passed = False
 
 
-tasks = [
+status_filter_tasks = [
     {
         "id": 1,
         "title": "Buy milk",
@@ -218,7 +219,7 @@ status_filter_cases = [
 print("\nTesting filtering by status\n")
 
 for t in status_filter_cases:
-    result = filter_by_status(tasks, t["status"])
+    result = filter_by_status(status_filter_tasks, t["status"])
     returned_ids = [r["id"] for r in result]
     passed, message = check_result(t["name"], returned_ids, t["expected"])
     print(message)
@@ -249,7 +250,7 @@ if not passed:
 
 print("\nTesting search by keyword\n")
 
-tasks = [
+keyword_search_tasks = [
     {
         "id": 1,
         "title": "Buy milk",
@@ -293,7 +294,7 @@ search_cases = [
 ]
 
 for t in search_cases:
-    result = search_by_keywords(tasks, t["query"])
+    result = search_by_keywords(keyword_search_tasks, t["query"])
     ids = [task["id"] for task in result]
     passed, message = check_result(t["name"], ids, t["expected"])
     print(message)
@@ -358,6 +359,73 @@ for t in next_id_cases:
     print(message)
     if not passed:
         all_passed = False
+
+print("\nTesting filtering by priority level\n")
+
+priority_filter_cases = [
+    {"name": "low", "priority": "low", "expected": [3, 6]},
+    {"name": "medium", "priority": "medium", "expected": [5]},
+    {"name": "high", "priority": "high", "expected": [1, 2, 4]},
+    {"name": "all caps", "priority": "LOW", "expected": [3, 6]},
+    {"name": "whitespace before/after", "priority": "   medium   ", "expected": [5]},
+    {"name": "not in schema", "priority": "urgent", "expected": []},
+    {"name": "empty string", "priority": "", "expected": []},
+    {"name": "whitespace only", "priority": "   ", "expected": []},
+]
+
+priority_filter_tasks = [
+    {
+        "id": 1,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Check fridge and bread",
+    },
+    {
+        "id": 2,
+        "title": "Email dentist",
+        "status": "done",
+        "priority": "high",
+        "notes": "Ask about June check-up",
+    },
+    {
+        "id": 3,
+        "title": "Book train tickets",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "London trip with family",
+    },
+    {
+        "id": 4,
+        "title": "Fix bike brake",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Rear brake rubbing slightly",
+    },
+    {
+        "id": 5,
+        "title": "Submit meter reading",
+        "status": "done",
+        "priority": "medium",
+        "notes": "Electricity account",
+    },
+    {
+        "id": 6,
+        "title": "Plan coding session",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "Test filter_by_status",
+    },
+]
+
+for t in priority_filter_cases:
+    result = filter_by_priority_level(priority_filter_tasks, t["priority"])
+    returned_ids = [r["id"] for r in result]
+    passed, message = check_result(t["name"], returned_ids, t["expected"])
+    print(message)
+    if not passed:
+        all_passed = False
+
 
 if all_passed:
     print("\nAll tests passed.")
