@@ -11,13 +11,11 @@ def print_menu():
     print("4 : Delete a task")
     print("5 : Update task status")
     print("6 : View all tasks")
-    print("7 : View all todo tasks")
-    print("8 : View all done tasks")
-    print("9 : View all in progress tasks")
-    print("10 : Search tasks by title/notes")
-    print("11 : View all tasks sorted by title")
-    print("12 : Update task priority level")
-    print("13 : Filter tasks by priority level")
+    print("7 : Filter tasks by status")
+    print("8 : Search tasks by title/notes")
+    print("9 : View all tasks sorted by title")
+    print("10 : Update task priority level")
+    print("11 : Filter tasks by priority level")
     print("Q : Quit")
 
 
@@ -34,8 +32,6 @@ def get_choice():
         "9",
         "10",
         "11",
-        "12",
-        "13",
         "q",
         "Q",
     }

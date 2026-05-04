@@ -182,26 +182,18 @@ def main():
         print(view_all(tasks))
         return
 
-    def cmd_view_by_status(status):
+    def cmd_view_by_status():
         if not tasks:
             print("\nNo tasks yet, use option 1 to add a task.")
             return
+        status = get_status()
         filtered = filter_by_status(tasks, status)
         if not filtered:
-            print(f"\nNo {status} tasks.")
+            print(f"\nNo tasks with status '{status}'.")
             return
-        print(f"\nAll tasks with status {status}:\n")
+        print(f"\nAll tasks with status '{status}':\n")
         print(view_all(filtered))
         return
-
-    def cmd_view_done():
-        cmd_view_by_status("done")
-
-    def cmd_view_in_progress():
-        cmd_view_by_status("in progress")
-
-    def cmd_view_todo():
-        cmd_view_by_status("todo")
 
     def cmd_view_by_priority_level():
         if not tasks:
@@ -244,13 +236,11 @@ def main():
         "4": cmd_delete_task,
         "5": cmd_update_status,
         "6": cmd_view_all,
-        "7": cmd_view_todo,
-        "8": cmd_view_done,
-        "9": cmd_view_in_progress,
-        "10": cmd_search_tasks,
-        "11": cmd_sort_tasks,
-        "12": cmd_update_priority_level,
-        "13": cmd_view_by_priority_level,
+        "7": cmd_view_by_status,
+        "8": cmd_search_tasks,
+        "9": cmd_sort_tasks,
+        "10": cmd_update_priority_level,
+        "11": cmd_view_by_priority_level,
     }
 
     if not validate_tasks(tasks):
