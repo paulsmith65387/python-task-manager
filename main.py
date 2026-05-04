@@ -26,6 +26,8 @@ from ui import (
     get_priority_level,
     string_input_blank_allowed,
     verify_choice,
+    print_filter_menu,
+    get_filter_choice,
 )
 
 
@@ -183,9 +185,6 @@ def main():
         return
 
     def cmd_view_by_status():
-        if not tasks:
-            print("\nNo tasks yet, use option 1 to add a task.")
-            return
         status = get_status()
         filtered = filter_by_status(tasks, status)
         if not filtered:
@@ -196,9 +195,6 @@ def main():
         return
 
     def cmd_view_by_priority_level():
-        if not tasks:
-            print("\nNo tasks yet, use option 1 to add a task.")
-            return
         priority = get_priority_level(
             "Enter task priority level: Options: low, medium, high: "
         )
@@ -209,6 +205,20 @@ def main():
         print(f"\nAll tasks with {priority} priority:\n")
         print(view_all(filtered))
         return
+
+    def cmd_view_by_field():
+        filter_choices = {
+            "1": cmd_view_by_status,
+            "2": cmd_view_by_priority_level,
+        }
+        if not tasks:
+            print("\nNo tasks yet, use option 1 to add a task.")
+            return
+        print_filter_menu()
+        choice = get_filter_choice()
+        if choice == "b":
+            return
+        filter_choices[choice]()
 
     def cmd_search_tasks():
         if not tasks:
@@ -236,11 +246,10 @@ def main():
         "4": cmd_delete_task,
         "5": cmd_update_status,
         "6": cmd_view_all,
-        "7": cmd_view_by_status,
+        "7": cmd_view_by_field,
         "8": cmd_search_tasks,
         "9": cmd_sort_tasks,
         "10": cmd_update_priority_level,
-        "11": cmd_view_by_priority_level,
     }
 
     if not validate_tasks(tasks):

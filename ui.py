@@ -11,12 +11,29 @@ def print_menu():
     print("4 : Delete a task")
     print("5 : Update task status")
     print("6 : View all tasks")
-    print("7 : Filter tasks by status")
+    print("7 : Filter tasks by status/priority")
     print("8 : Search tasks by title/notes")
     print("9 : View all tasks sorted by title")
     print("10 : Update task priority level")
-    print("11 : Filter tasks by priority level")
     print("Q : Quit")
+
+
+def print_filter_menu():
+    print("\n1 : Filter by status")
+    print("2 : Filter by priority level")
+    print("B : Main menu")
+
+
+def get_filter_choice():
+    allowed_choices = {"1", "2", "b", "B"}
+
+    while True:
+        choice = input(
+            "Filter by status or priority level, or B to return to main menu: "
+        )
+        if choice in allowed_choices:
+            return choice.lower()
+        print("Please enter a valid menu option")
 
 
 def get_choice():
@@ -31,7 +48,6 @@ def get_choice():
         "8",
         "9",
         "10",
-        "11",
         "q",
         "Q",
     }
