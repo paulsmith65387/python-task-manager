@@ -37,9 +37,7 @@ def main():
     def cmd_add_task():
         title = string_input("Enter task title: ")
         status = get_status()
-        priority = get_priority_level(
-            "Enter task priority level: Options: low, medium, high: "
-        )
+        priority = get_priority_level()
         notes = string_input("Enter notes: ")
         print(
             "\n The following task has been added:\n",
@@ -163,9 +161,7 @@ def main():
             print("Task not found.")
             return  # back to menu
 
-        priority = get_priority_level(
-            "Enter task priority level: Options: low, medium, high: "
-        )
+        priority = get_priority_level()
         if priority != task["priority"]:
             print(
                 "\nThe following update has been made:\n",
@@ -195,9 +191,7 @@ def main():
         return
 
     def cmd_view_by_priority_level():
-        priority = get_priority_level(
-            "Enter task priority level: Options: low, medium, high: "
-        )
+        priority = get_priority_level()
         filtered = filter_by_priority_level(tasks, priority)
         if not filtered:
             print(f"\nNo {priority} priority tasks.")

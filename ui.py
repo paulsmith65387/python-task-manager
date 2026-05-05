@@ -72,24 +72,31 @@ def string_input_blank_allowed(prompt):
     return raw_text
 
 
+def get_field(allowed, prompt, error_msg):
+    while True:
+        field = normalize_value(input(prompt))
+        if field not in allowed:
+            print(error_msg)
+            continue
+        return field
+
+
 def get_status():
-    while True:
-        status = normalize_value(
-            input("Enter task status. Options: todo, in progress, done: ")
-        )
-        if status not in ALLOWED_STATUSES:
-            print("Please enter a valid status")
-            continue
-        return status
+    status = get_field(
+        ALLOWED_STATUSES,
+        "Enter task status. Options: todo, in progress, done: ",
+        "Please enter a valid status.",
+    )
+    return status
 
 
-def get_priority_level(prompt):
-    while True:
-        priority = normalize_value(input(prompt))
-        if priority not in ALLOWED_PRIORITY_LEVELS:
-            print("Please enter a valid priority level")
-            continue
-        return priority
+def get_priority_level():
+    priority = get_field(
+        ALLOWED_PRIORITY_LEVELS,
+        "Enter task priority level: Options: low, medium, high: ",
+        "Please enter a valid priority level.",
+    )
+    return priority
 
 
 def get_task_num(tasks):
