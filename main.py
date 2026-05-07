@@ -48,7 +48,7 @@ def main():
 
     def cmd_view_task():
         if not tasks:
-            print("No tasks yet. Use option 1 to add a task.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         task_id = get_task_num(tasks)
         task = find_task(tasks, task_id)
@@ -60,9 +60,8 @@ def main():
 
     def cmd_update_task():
         if not tasks:
-            print("\nNo tasks to update yet, use option 1 to add a task.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
-
         task_id = get_task_num(tasks)
         task = find_task(tasks, task_id)
         if task is None:
@@ -100,9 +99,8 @@ def main():
 
     def cmd_delete_task():
         if not tasks:
-            print("\nNo tasks to delete yet, use option 1 to add a task.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
-
         task_id = get_task_num(tasks)
         task = find_task(tasks, task_id)
         if task is None:
@@ -123,15 +121,13 @@ def main():
 
     def cmd_update_status():
         if not tasks:
-            print("No tasks to update.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         task_id = get_task_num(tasks)
         task = find_task(tasks, task_id)
-
         if task is None:
             print("Task not found.")
-            return  # back to menu
-
+            return
         status = get_status()
         if status != task["status"]:
             print(
@@ -145,15 +141,13 @@ def main():
 
     def cmd_update_priority_level():
         if not tasks:
-            print("No tasks to update.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         task_id = get_task_num(tasks)
         task = find_task(tasks, task_id)
-
         if task is None:
             print("Task not found.")
-            return  # back to menu
-
+            return
         priority = get_priority_level()
         if priority != task["priority"]:
             print(
@@ -167,7 +161,7 @@ def main():
 
     def cmd_view_all():
         if not tasks:
-            print("\nNo tasks yet, use option 1 to add a task.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         print("\nAll tasks:\n")
         print(view_all(tasks))
@@ -199,7 +193,7 @@ def main():
             "2": cmd_view_by_priority_level,
         }
         if not tasks:
-            print("\nNo tasks yet, use option 1 to add a task.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         print_filter_menu()
         choice = get_filter_choice()
@@ -209,7 +203,7 @@ def main():
 
     def cmd_search_tasks():
         if not tasks:
-            print("\nNo tasks yet.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         search_string = string_input("Enter keyword to search task titles and notes: ")
         results = search_by_keywords(tasks, search_string)
@@ -221,7 +215,7 @@ def main():
 
     def cmd_sort_tasks():
         if not tasks:
-            print("\nNo tasks yet.")
+            print("\nNo tasks yet. Use option 1 to add a task.")
             return
         print("\nAll tasks sorted by title:\n")
         print(view_all(sort_tasks_by_title(tasks)))
