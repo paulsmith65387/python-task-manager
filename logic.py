@@ -140,3 +140,14 @@ def filter_by_priority_level(tasks, priority):
     priority = normalize_value(priority)
     filtered = [t for t in tasks if t["priority"] == priority]
     return filtered
+
+
+def plan_update(title_flag, notes_flag):
+    update_flag = None
+    if title_flag == "new_value" and notes_flag == "new_value":
+        update_flag = "both"
+    elif title_flag == "new_value" and notes_flag == "unchanged":
+        update_flag = "title"
+    elif title_flag == "unchanged" and notes_flag == "new_value":
+        update_flag = "notes"
+    return update_flag

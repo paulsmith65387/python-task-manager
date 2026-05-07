@@ -6,6 +6,7 @@ from logic import (
     sort_tasks_by_title,
     get_final_value,
     next_id,
+    plan_update,
 )
 
 all_passed = True
@@ -426,6 +427,41 @@ for t in priority_filter_cases:
     if not passed:
         all_passed = False
 
+print("\nTesting plan update flagging\n")
+
+plan_update_cases = [
+    {
+        "name": "Both updated",
+        "title_flag": "new_value",
+        "notes_flag": "new_value",
+        "expected": "both",
+    },
+    {
+        "name": "Title updated",
+        "title_flag": "new_value",
+        "notes_flag": "unchanged",
+        "expected": "title",
+    },
+    {
+        "name": "Notes updated",
+        "title_flag": "unchanged",
+        "notes_flag": "new_value",
+        "expected": "notes",
+    },
+    {
+        "name": "No updates",
+        "title_flag": "unchanged",
+        "notes_flag": "unchanged",
+        "expected": None,
+    },
+]
+
+for t in plan_update_cases:
+    result = plan_update(t["title_flag"], t["notes_flag"])
+    passed, message = check_result(t["name"], result, t["expected"])
+    print(message)
+    if not passed:
+        all_passed = False
 
 if all_passed:
     print("\nAll tests passed.")

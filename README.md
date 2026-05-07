@@ -10,9 +10,9 @@ It uses separate modules, JSON persistence, and command dispatch.
 - View one task
 - View all tasks
 - Update title and notes
-- Update task status
+- Update task status/priority
 - Delete tasks with confirmation
-- Filter tasks by status
+- Filter tasks by status/priority
 - Search tasks by title and notes
 - Sort tasks by title
 - Save and load tasks from JSON
@@ -37,6 +37,8 @@ The app has grown from an initial create, view, and delete program into somethin
 
 I have also added a scratch test module to check expected behaviour in core logic functions and have begun using Git and GitHub to track changes.
 
+I have added priority levels, and recently added priority filtering and updating. I have also added a submenu to simplify fitering which branches to allow filtering by status/priority level. This refactor has given me practice in implementing schema changes, menu refactoring and adding submenus, reusable input helpers, and avoiding menu bloat. 
+
 ## How to Run
 
 Clone or download the repository, then run `python3 main.py` from the project folder.
@@ -49,6 +51,5 @@ A local `tasks.json` file is created automatically when the app runs. This file 
 
 - Convert scratch tests to pytest
 - Add due dates
-- Add priority levels
 - Improve error messages
 - Add terminal examples or screenshots

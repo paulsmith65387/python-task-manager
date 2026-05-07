@@ -13,6 +13,7 @@ from logic import (
     get_final_value,
     set_task_priority,
     filter_by_priority_level,
+    plan_update,
 )
 
 from ui import (
@@ -75,33 +76,25 @@ def main():
         notes = string_input_blank_allowed(
             "Enter notes, or press enter to leave unchanged: "
         )
+        update_dict = {
+            "both": "\nThe following changes have been made: title and notes fields updated:",
+            "title": "\nThe following change has been made: title field updated",
+            "notes": "\nThe following change has been made: notes field updated:",
+        }
         title_flag, final_title = get_final_value(task["title"], title)
         notes_flag, final_notes = get_final_value(task["notes"], notes)
-        if title_flag == "new_value" and notes_flag == "new_value":
-            print(
-                "\nThe following changes have been made: title and notes fields updated:\n",
-                view_task(
-                    update_task(tasks, final_title, final_notes, task_id),
-                ),
-            )
-        elif title_flag == "new_value" and notes_flag == "unchanged":
-            print(
-                "\nThe following change has been made: title field updated\n",
-                view_task(
-                    update_task(tasks, final_title, None, task_id),
-                ),
-            )
-        elif title_flag == "unchanged" and notes_flag == "new_value":
-            print(
-                "\nThe following change has been made: notes field updated:\n",
-                view_task(
-                    update_task(tasks, None, final_notes, task_id),
-                ),
-            )
-        else:
+        update_flag = plan_update(title_flag, notes_flag)
+        if update_flag is None:
             print("\nNo changes made, task details:")
             print(view_task(task))
             return
+        print(update_dict[update_flag])
+        if update_flag == "both":
+            print(view_task(update_task(tasks, final_title, final_notes, task_id)))
+        elif update_flag == "title":
+            print(view_task(update_task(tasks, final_title, None, task_id)))
+        elif update_flag == "notes":
+            print(view_task(update_task(tasks, None, final_notes, task_id)))
         save_tasks(tasks)
         return
 
