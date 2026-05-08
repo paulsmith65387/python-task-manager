@@ -28,7 +28,8 @@ from ui import (
     string_input_blank_allowed,
     verify_choice,
     print_filter_menu,
-    get_filter_choice,
+    get_submenu_choice,
+    print_update_menu,
 )
 
 
@@ -119,40 +120,42 @@ def main():
             print("\nNo changes made.")
             return
 
-    def cmd_update_status():
+    def cmd_update_task_field():
         if not tasks:
             print("\nNo tasks yet. Use option 1 to add a task.")
+            return
+        update_choice = {
+            "1": {
+                "get_field": get_status,
+                "task_key": "status",
+                "set_field": set_task_status,
+            },
+            "2": {
+                "get_field": get_priority_level,
+                "task_key": "priority",
+                "set_field": set_task_priority,
+            },
+        }
+        print_update_menu()
+        choice = get_submenu_choice(
+            "Update a task's status or priority level, or back to main menu: ",
+            {"1", "2", "b", "B"},
+        )
+        if choice == "b":
             return
         task_id = get_task_num(tasks)
         task = find_task(tasks, task_id)
         if task is None:
             print("Task not found.")
             return
-        status = get_status()
-        if status != task["status"]:
+        chosen_update = update_choice[choice]
+        new_field_value = chosen_update["get_field"]()
+        task_key = chosen_update["task_key"]
+        setter = chosen_update["set_field"]
+        if new_field_value != task[task_key]:
             print(
                 "\nThe following update has been made:\n",
-                view_task(set_task_status(task, status)),
-            )
-            save_tasks(tasks)
-        else:
-            print("\nNo changes made:\n", view_task(task))
-        return
-
-    def cmd_update_priority_level():
-        if not tasks:
-            print("\nNo tasks yet. Use option 1 to add a task.")
-            return
-        task_id = get_task_num(tasks)
-        task = find_task(tasks, task_id)
-        if task is None:
-            print("Task not found.")
-            return
-        priority = get_priority_level()
-        if priority != task["priority"]:
-            print(
-                "\nThe following update has been made:\n",
-                view_task(set_task_priority(task, priority)),
+                view_task(setter(task, new_field_value)),
             )
             save_tasks(tasks)
         else:
@@ -196,7 +199,10 @@ def main():
             print("\nNo tasks yet. Use option 1 to add a task.")
             return
         print_filter_menu()
-        choice = get_filter_choice()
+        choice = get_submenu_choice(
+            "Filter by status or priority level, or B to return to main menu: ",
+            {"1", "2", "b", "B"},
+        )
         if choice == "b":
             return
         filter_choices[choice]()
@@ -225,12 +231,11 @@ def main():
         "2": cmd_view_task,
         "3": cmd_update_task,
         "4": cmd_delete_task,
-        "5": cmd_update_status,
+        "5": cmd_update_task_field,
         "6": cmd_view_all,
         "7": cmd_view_by_field,
         "8": cmd_search_tasks,
         "9": cmd_sort_tasks,
-        "10": cmd_update_priority_level,
     }
 
     if not validate_tasks(tasks):
