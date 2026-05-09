@@ -112,6 +112,13 @@ def sort_tasks_by_title(tasks):
     return sorted(tasks, key=lambda t: t["title"].lower().strip())
 
 
+def sort_tasks_by_priority(tasks):
+    priority_ranks = {"low": 3, "medium": 2, "high": 1}
+    return sorted(
+        tasks, key=lambda t: (priority_ranks[t["priority"]], t["title"].lower().strip())
+    )
+
+
 def search_by_keywords(tasks, query):
     query_lower = query.lower().strip()
     if not query_lower:

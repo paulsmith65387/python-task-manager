@@ -13,7 +13,7 @@ def print_menu():
     print("6 : View all tasks")
     print("7 : Filter tasks by status/priority")
     print("8 : Search tasks by title/notes")
-    print("9 : View all tasks sorted by title")
+    print("9 : View all tasks sorted by title/priority")
     print("Q : Quit")
 
 
@@ -26,6 +26,12 @@ def print_filter_menu():
 def print_update_menu():
     print("\n1 : Update status")
     print("2 : Update priority level")
+    print("B : Back to main menu")
+
+
+def print_sort_menu():
+    print("\n1 : Sort tasks by title")
+    print("2 : Sort tasks by priority level")
     print("B : Back to main menu")
 
 

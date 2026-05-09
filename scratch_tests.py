@@ -7,6 +7,7 @@ from logic import (
     get_final_value,
     next_id,
     plan_update,
+    sort_tasks_by_priority,
 )
 
 all_passed = True
@@ -462,6 +463,75 @@ for t in plan_update_cases:
     print(message)
     if not passed:
         all_passed = False
+
+print("\nTesting sorting by priority\n")
+
+priority_sort_tasks = [
+    {
+        "id": 1,
+        "title": "Fix bike brake",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Rear brake rubbing slightly",
+    },
+    {
+        "id": 2,
+        "title": "Email dentist",
+        "status": "done",
+        "priority": "medium",
+        "notes": "Ask about check-up",
+    },
+    {
+        "id": 3,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Check fridge first",
+    },
+    {
+        "id": 4,
+        "title": "Clean desk",
+        "status": "todo",
+        "priority": "low",
+        "notes": "Clear old papers",
+    },
+    {
+        "id": 5,
+        "title": "Book train tickets",
+        "status": "in progress",
+        "priority": "medium",
+        "notes": "London trip",
+    },
+    {
+        "id": 6,
+        "title": "Update task manager README",
+        "status": "todo",
+        "priority": "low",
+        "notes": "Mention priority filtering",
+    },
+    {
+        "id": 7,
+        "title": "Apply chain lube",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Bike maintenance",
+    },
+    {
+        "id": 8,
+        "title": "Plan coding session",
+        "status": "in progress",
+        "priority": "medium",
+        "notes": "Work on sorting submenu",
+    },
+]
+
+expected_ids = [7, 3, 1, 5, 2, 8, 4, 6]
+sorted_tasks = [t["id"] for t in sort_tasks_by_priority(priority_sort_tasks)]
+passed, message = check_result("Sorting by priority", sorted_tasks, expected_ids)
+print(message)
+if not passed:
+    all_passed = False
+
 
 if all_passed:
     print("\nAll tests passed.")
