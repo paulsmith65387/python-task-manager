@@ -3,11 +3,10 @@ from logic import (
     filter_by_status,
     filter_by_priority_level,
     search_by_keywords,
-    sort_tasks_by_title,
     get_final_value,
     next_id,
     plan_update,
-    sort_tasks_by_priority,
+    sort_tasks,
 )
 
 all_passed = True
@@ -228,28 +227,6 @@ for t in status_filter_cases:
     if not passed:
         all_passed = False
 
-print("\nTesting sorting by title\n")
-
-messy_sort_tasks = [
-    {"id": 1, "title": "  banana", "status": "todo", "priority": "low", "notes": ""},
-    {"id": 2, "title": "Apple", "status": "todo", "priority": "medium", "notes": ""},
-    {"id": 3, "title": "cherry", "status": "todo", "priority": "high", "notes": ""},
-    {
-        "id": 4,
-        "title": "  apricot",
-        "status": "todo",
-        "priority": "medium",
-        "notes": "",
-    },
-]
-
-expected_ids = [2, 4, 1, 3]
-sorted_tasks = [t["id"] for t in sort_tasks_by_title(messy_sort_tasks)]
-passed, message = check_result("Sorting by title", sorted_tasks, expected_ids)
-print(message)
-if not passed:
-    all_passed = False
-
 print("\nTesting search by keyword\n")
 
 keyword_search_tasks = [
@@ -464,13 +441,13 @@ for t in plan_update_cases:
     if not passed:
         all_passed = False
 
-print("\nTesting sorting by priority\n")
+print("\nTesting sorting by submenu behaviours\n")
 
-priority_sort_tasks = [
+sort_submenu_tasks = [
     {
         "id": 1,
         "title": "Fix bike brake",
-        "status": "todo",
+        "status": "done",
         "priority": "high",
         "notes": "Rear brake rubbing slightly",
     },
@@ -484,8 +461,8 @@ priority_sort_tasks = [
     {
         "id": 3,
         "title": "Buy milk",
-        "status": "todo",
-        "priority": "high",
+        "status": "in progress",
+        "priority": "low",
         "notes": "Check fridge first",
     },
     {
@@ -505,7 +482,7 @@ priority_sort_tasks = [
     {
         "id": 6,
         "title": "Update task manager README",
-        "status": "todo",
+        "status": "in progress",
         "priority": "low",
         "notes": "Mention priority filtering",
     },
@@ -520,18 +497,51 @@ priority_sort_tasks = [
         "id": 8,
         "title": "Plan coding session",
         "status": "in progress",
-        "priority": "medium",
+        "priority": "high",
         "notes": "Work on sorting submenu",
+    },
+    {
+        "id": 9,
+        "title": "Apply chain lube",
+        "status": "done",
+        "priority": "low",
+        "notes": "all weather",
+    },
+    {
+        "id": 10,
+        "title": "Apply chain lube",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "",
     },
 ]
 
-expected_ids = [7, 3, 1, 5, 2, 8, 4, 6]
-sorted_tasks = [t["id"] for t in sort_tasks_by_priority(priority_sort_tasks)]
-passed, message = check_result("Sorting by priority", sorted_tasks, expected_ids)
+print("\nTesting sorting by title\n")
+
+expected_ids = [7, 10, 9, 5, 3, 4, 2, 1, 8, 6]
+sorted_tasks = [t["id"] for t in sort_tasks(sort_submenu_tasks, "title")]
+passed, message = check_result("Sorting by title", sorted_tasks, expected_ids)
 print(message)
 if not passed:
     all_passed = False
 
+print("\nTesting sorting by status\n")
+
+expected_ids = [7, 4, 8, 5, 10, 3, 6, 1, 2, 9]
+sorted_tasks = [t["id"] for t in sort_tasks(sort_submenu_tasks, "status")]
+passed, message = check_result("Sorting by status", sorted_tasks, expected_ids)
+print(message)
+if not passed:
+    all_passed = False
+
+print("\nTesting sorting by priority level\n")
+
+expected_ids = [7, 8, 1, 5, 2, 4, 10, 3, 6, 9]
+sorted_tasks = [t["id"] for t in sort_tasks(sort_submenu_tasks, "priority")]
+passed, message = check_result("Sorting by priority", sorted_tasks, expected_ids)
+print(message)
+if not passed:
+    all_passed = False
 
 if all_passed:
     print("\nAll tests passed.")

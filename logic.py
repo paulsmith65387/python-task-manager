@@ -108,15 +108,36 @@ def set_task_priority(task, priority):
     return task
 
 
-def sort_tasks_by_title(tasks):
-    return sorted(tasks, key=lambda t: t["title"].lower().strip())
-
-
-def sort_tasks_by_priority(tasks):
+def sort_tasks(tasks, field_choice):
     priority_ranks = {"low": 3, "medium": 2, "high": 1}
-    return sorted(
-        tasks, key=lambda t: (priority_ranks[t["priority"]], t["title"].lower().strip())
-    )
+    status_ranks = {"done": 3, "in progress": 2, "todo": 1}
+    if field_choice == "title":
+        return sorted(
+            tasks,
+            key=lambda t: (
+                t["title"].lower().strip(),
+                status_ranks[t["status"]],
+                priority_ranks[t["priority"]],
+            ),
+        )
+    elif field_choice == "status":
+        return sorted(
+            tasks,
+            key=lambda t: (
+                status_ranks[t["status"]],
+                priority_ranks[t["priority"]],
+                t["title"].lower().strip(),
+            ),
+        )
+    elif field_choice == "priority":
+        return sorted(
+            tasks,
+            key=lambda t: (
+                priority_ranks[t["priority"]],
+                status_ranks[t["status"]],
+                t["title"].lower().strip(),
+            ),
+        )
 
 
 def search_by_keywords(tasks, query):

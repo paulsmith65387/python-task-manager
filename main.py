@@ -9,8 +9,7 @@ from logic import (
     find_task,
     filter_by_status,
     search_by_keywords,
-    sort_tasks_by_title,
-    sort_tasks_by_priority,
+    sort_tasks,
     get_final_value,
     set_task_priority,
     filter_by_priority_level,
@@ -127,23 +126,21 @@ def main():
             print("\nNo tasks yet. Use option 1 to add a task.")
             return
         sort_choice = {
-            "1": {"sort_func": sort_tasks_by_title, "field_choice": "title"},
-            "2": {
-                "sort_func": sort_tasks_by_priority,
-                "field_choice": "priority level",
-            },
+            "1": {"sort_key": "title", "display_key": "title"},
+            "2": {"sort_key": "status", "display_key": "status"},
+            "3": {"sort_key": "priority", "display_key": "priority level"},
         }
         print_sort_menu()
         choice = get_submenu_choice(
-            "View all tasks sorted by title/priority level, or back to main menu: ",
-            {"1", "2", "b", "B"},
+            "View all tasks sorted by title/status/priority level, or back to main menu: ",
+            {"1", "2", "3", "b", "B"},
         )
         if choice == "b":
             return
-        field_choice = sort_choice[choice]["field_choice"]
-        sort_function = sort_choice[choice]["sort_func"]
-        print(f"\nAll tasks sorted by {field_choice}:\n")
-        print(view_all(sort_function(tasks)))
+        sort_key = sort_choice[choice]["sort_key"]
+        display_label = sort_choice[choice]["display_key"]
+        print(f"\nAll tasks sorted by {display_label}:\n")
+        print(view_all(sort_tasks(tasks, sort_key)))
 
     def cmd_update_task_field():
         if not tasks:
