@@ -77,11 +77,6 @@ def main():
         notes = string_input_blank_allowed(
             "Enter notes, or press enter to leave unchanged: "
         )
-        update_dict = {
-            "both": "\nThe following changes have been made: title and notes fields updated:",
-            "title": "\nThe following change has been made: title field updated",
-            "notes": "\nThe following change has been made: notes field updated:",
-        }
         title_flag, final_title = get_final_value(task["title"], title)
         notes_flag, final_notes = get_final_value(task["notes"], notes)
         update_flag = plan_update(title_flag, notes_flag)
@@ -89,13 +84,28 @@ def main():
             print("\nNo changes made, task details:")
             print(view_task(task))
             return
-        print(update_dict[update_flag])
-        if update_flag == "both":
-            print(view_task(update_task(tasks, final_title, final_notes, task_id)))
-        elif update_flag == "title":
-            print(view_task(update_task(tasks, final_title, None, task_id)))
-        elif update_flag == "notes":
-            print(view_task(update_task(tasks, None, final_notes, task_id)))
+        update_dict = {
+            "both": {
+                "message": "\nThe following changes have been made: title and notes fields updated:",
+                "title_arg": final_title,
+                "notes_arg": final_notes,
+            },
+            "title": {
+                "message": "\nThe following change has been made: title field updated:",
+                "title_arg": final_title,
+                "notes_arg": None,
+            },
+            "notes": {
+                "message": "\nThe following change has been made: notes field updated:",
+                "title_arg": None,
+                "notes_arg": final_notes,
+            },
+        }
+        display_msg = update_dict[update_flag]["message"]
+        title_arg = update_dict[update_flag]["title_arg"]
+        notes_arg = update_dict[update_flag]["notes_arg"]
+        print(display_msg)
+        print(view_task(update_task(tasks, title_arg, notes_arg, task_id)))
         save_tasks(tasks)
         return
 
