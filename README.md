@@ -10,11 +10,11 @@ It uses separate modules, JSON persistence, and command dispatch.
 - View one task
 - View all tasks
 - Update title and notes
-- Update task status/priority
+- Update task status or priority
 - Delete tasks with confirmation
-- Filter tasks by status/priority
+- Filter tasks by status or priority
 - Search tasks by title and notes
-- Sort tasks by title
+- Sort tasks by title, status, or priority
 - Save and load tasks from JSON
 - Includes scratch tests for core logic
 
@@ -33,11 +33,13 @@ This is my first project to use separate modules for different responsibilities.
 
 The project has helped me practise validation for loaded task data and user-created tasks. It is also my first project with data that persists between sessions, which is a step up from previous work that ran purely in memory.
 
-The app has grown from an initial create, view, and delete program into something with search, filtering, sorting, partial update functionality, and delete confirmation.
+The app has grown from an initial create, view, and delete program into something with search, filtering, sorting, partial update functionality, delete confirmation, task status, and priority levels.
+
+I have added submenus to simplify filtering, field updating, and sorting. These submenus allow tasks to be filtered by status or priority, updated by status or priority, and sorted by title, status, or priority.
+
+This has given me practice with schema changes, menu refactoring, reusable input helpers, domain-specific sorting rules, scratch testing, and avoiding menu bloat.
 
 I have also added a scratch test module to check expected behaviour in core logic functions and have begun using Git and GitHub to track changes.
-
-I have added priority levels, and recently added priority filtering and updating. I have also added a submenu to simplify fitering which branches to allow filtering by status/priority level. This refactor has given me practice in implementing schema changes, menu refactoring and adding submenus, reusable input helpers, and avoiding menu bloat. 
 
 ## How to Run
 
@@ -49,7 +51,7 @@ A local `tasks.json` file is created automatically when the app runs. This file 
 
 ## Future Improvements
 
-- Convert scratch tests to pytest
+- Convert scratch tests to `pytest`
 - Add due dates
 - Improve error messages
 - Add terminal examples or screenshots
