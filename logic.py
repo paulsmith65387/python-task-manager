@@ -109,8 +109,11 @@ def set_task_priority(task, priority):
 
 
 def sort_tasks(tasks, field_choice):
+    sort_keys = {"status", "priority", "title"}
     priority_ranks = {"low": 3, "medium": 2, "high": 1}
     status_ranks = {"done": 3, "in progress": 2, "todo": 1}
+    if field_choice not in sort_keys:
+        return None
     if field_choice == "title":
         return sorted(
             tasks,

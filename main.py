@@ -149,8 +149,13 @@ def main():
             return
         sort_key = sort_choice[choice]["sort_key"]
         display_label = sort_choice[choice]["display_key"]
+        sorted_tasks = sort_tasks(tasks, sort_key)
+        if sorted_tasks is None:
+            print("\nInvalid sort option. Current task list: \n")
+            print(view_all(tasks))
+            return
         print(f"\nAll tasks sorted by {display_label}:\n")
-        print(view_all(sort_tasks(tasks, sort_key)))
+        print(view_all(sorted_tasks))
 
     def cmd_update_task_field():
         if not tasks:

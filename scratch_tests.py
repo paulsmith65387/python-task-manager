@@ -543,6 +543,15 @@ print(message)
 if not passed:
     all_passed = False
 
+print("\nTesting invalid sort key\n")
+
+expected = None
+sorted_tasks = sort_tasks(sort_submenu_tasks, "due_date")
+passed, message = check_result("Invalid sort key", sorted_tasks, expected)
+print(message)
+if not passed:
+    all_passed = False
+
 if all_passed:
     print("\nAll tests passed.")
 else:
