@@ -17,6 +17,7 @@ It uses separate modules, JSON persistence, and command dispatch.
 - Sort tasks by title, status, or priority
 - Save and load tasks from JSON
 - Includes scratch tests for core logic
+- Initial pytest tests
 
 ## Project Structure
 
@@ -26,6 +27,7 @@ It uses separate modules, JSON persistence, and command dispatch.
 - `storage.py` - JSON persistence
 - `scratch_tests.py` - informal logic test harness
 - `.gitignore` - excludes local runtime data such as `tasks.json`
+- `tests/test_logic.py` - initial `pytest` tests
 
 ## What I Have Learned and Practised
 
@@ -45,13 +47,15 @@ I have also added a scratch test module to check expected behaviour in core logi
 
 Clone or download the repository, then run `python3 main.py` from the project folder.
 
+On Windows, the command may be `py main.py`.
+
 On some systems, the command may be `python main.py`.
 
 A local `tasks.json` file is created automatically when the app runs. This file is ignored by Git.
 
 ## Future Improvements
 
-- Convert scratch tests to `pytest`
+- Convert remaining scratch tests to `pytest`
 - Add due dates
 - Improve error messages
 - Add terminal examples or screenshots
