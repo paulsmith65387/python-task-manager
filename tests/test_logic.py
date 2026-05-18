@@ -1,4 +1,55 @@
-from logic import get_final_value, plan_update, next_id, filter_by_status
+from logic import (
+    get_final_value,
+    plan_update,
+    next_id,
+    filter_by_status,
+    filter_by_priority_level,
+)
+
+priority_filter_tasks = [
+    {
+        "id": 1,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Check fridge and bread",
+    },
+    {
+        "id": 2,
+        "title": "Email dentist",
+        "status": "done",
+        "priority": "high",
+        "notes": "Ask about June check-up",
+    },
+    {
+        "id": 3,
+        "title": "Book train tickets",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "London trip with family",
+    },
+    {
+        "id": 4,
+        "title": "Fix bike brake",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Rear brake rubbing slightly",
+    },
+    {
+        "id": 5,
+        "title": "Submit meter reading",
+        "status": "done",
+        "priority": "medium",
+        "notes": "Electricity account",
+    },
+    {
+        "id": 6,
+        "title": "Plan coding session",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "Test filter_by_status",
+    },
+]
 
 status_filter_tasks = [
     {
@@ -155,4 +206,54 @@ def test_invalid_status_returns_empty_list():
 
 def test_empty_string_returns_empty_list():
     result = [t["id"] for t in filter_by_status(status_filter_tasks, "")]
+    assert result == []
+
+
+def test_filter_low_priority_tasks():
+    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "low")]
+    assert result == [3, 6]
+
+
+def test_filter_medium_priority_tasks():
+    result = [
+        t["id"] for t in filter_by_priority_level(priority_filter_tasks, "medium")
+    ]
+    assert result == [5]
+
+
+def test_filter_high_priority_tasks():
+    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "high")]
+    assert result == [1, 2, 4]
+
+
+def test_upper_case_priority_works():
+    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "LOW")]
+    assert result == [3, 6]
+
+
+def test_input_priority_with_whitespace():
+    result = [
+        t["id"]
+        for t in filter_by_priority_level(priority_filter_tasks, "    medium   ")
+    ]
+    assert result == [5]
+
+
+def test_whitespace_only_priority_returns_empty_list():
+    result = [
+        t["id"] for t in filter_by_priority_level(priority_filter_tasks, "       ")
+    ]
+    assert result == []
+
+
+def test_invalid_priority_returns_empty_list():
+    result = [
+        t["id"]
+        for t in filter_by_priority_level(priority_filter_tasks, "high priority")
+    ]
+    assert result == []
+
+
+def test_empty_string_priority_returns_empty_list():
+    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "")]
     assert result == []
