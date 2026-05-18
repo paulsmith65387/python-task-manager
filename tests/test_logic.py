@@ -6,7 +6,7 @@ from logic import (
     filter_by_priority_level,
 )
 
-priority_filter_tasks = [
+filter_tasks = [
     {
         "id": 1,
         "title": "Buy milk",
@@ -47,51 +47,6 @@ priority_filter_tasks = [
         "title": "Plan coding session",
         "status": "in progress",
         "priority": "low",
-        "notes": "Test filter_by_status",
-    },
-]
-
-status_filter_tasks = [
-    {
-        "id": 1,
-        "title": "Buy milk",
-        "status": "todo",
-        "priority": "high",
-        "notes": "Check fridge and bread",
-    },
-    {
-        "id": 2,
-        "title": "Email dentist",
-        "status": "done",
-        "priority": "high",
-        "notes": "Ask about June check-up",
-    },
-    {
-        "id": 3,
-        "title": "Book train tickets",
-        "status": "in progress",
-        "priority": "high",
-        "notes": "London trip with family",
-    },
-    {
-        "id": 4,
-        "title": "Fix bike brake",
-        "status": "todo",
-        "priority": "high",
-        "notes": "Rear brake rubbing slightly",
-    },
-    {
-        "id": 5,
-        "title": "Submit meter reading",
-        "status": "done",
-        "priority": "high",
-        "notes": "Electricity account",
-    },
-    {
-        "id": 6,
-        "title": "Plan coding session",
-        "status": "in progress",
-        "priority": "high",
         "notes": "Test filter_by_status",
     },
 ]
@@ -167,93 +122,85 @@ def test_unordered_ids_fills_correct_gap():
     assert result == 5
 
 
+def task_ids(task_list):
+    return [t["id"] for t in task_list]
+
+
 def test_filter_todo_tasks():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "todo")]
-    assert result == [1, 4]
+    result = filter_by_status(filter_tasks, "todo")
+    assert task_ids(result) == [1, 4]
 
 
 def test_filter_done_tasks():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "done")]
-    assert result == [2, 5]
+    result = filter_by_status(filter_tasks, "done")
+    assert task_ids(result) == [2, 5]
 
 
 def test_filter_in_progress_tasks():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "in progress")]
-    assert result == [3, 6]
+    result = filter_by_status(filter_tasks, "in progress")
+    assert task_ids(result) == [3, 6]
 
 
 def test_upper_case_input_works():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "TODO")]
-    assert result == [1, 4]
+    result = filter_by_status(filter_tasks, "TODO")
+    assert task_ids(result) == [1, 4]
 
 
 def test_input_with_whitespace():
-    result = [
-        t["id"] for t in filter_by_status(status_filter_tasks, "    in progress   ")
-    ]
-    assert result == [3, 6]
+    result = filter_by_status(filter_tasks, "    in progress   ")
+    assert task_ids(result) == [3, 6]
 
 
 def test_whitespace_only_returns_empty_list():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "       ")]
-    assert result == []
+    result = filter_by_status(filter_tasks, "       ")
+    assert task_ids(result) == []
 
 
 def test_invalid_status_returns_empty_list():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "urgent")]
-    assert result == []
+    result = filter_by_status(filter_tasks, "urgent")
+    assert task_ids(result) == []
 
 
 def test_empty_string_returns_empty_list():
-    result = [t["id"] for t in filter_by_status(status_filter_tasks, "")]
-    assert result == []
+    result = filter_by_status(filter_tasks, "")
+    assert task_ids(result) == []
 
 
 def test_filter_low_priority_tasks():
-    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "low")]
-    assert result == [3, 6]
+    result = filter_by_priority_level(filter_tasks, "low")
+    assert task_ids(result) == [3, 6]
 
 
 def test_filter_medium_priority_tasks():
-    result = [
-        t["id"] for t in filter_by_priority_level(priority_filter_tasks, "medium")
-    ]
-    assert result == [5]
+    result = filter_by_priority_level(filter_tasks, "medium")
+    assert task_ids(result) == [5]
 
 
 def test_filter_high_priority_tasks():
-    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "high")]
-    assert result == [1, 2, 4]
+    result = filter_by_priority_level(filter_tasks, "high")
+    assert task_ids(result) == [1, 2, 4]
 
 
 def test_upper_case_priority_works():
-    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "LOW")]
-    assert result == [3, 6]
+    result = filter_by_priority_level(filter_tasks, "LOW")
+    assert task_ids(result) == [3, 6]
 
 
 def test_input_priority_with_whitespace():
-    result = [
-        t["id"]
-        for t in filter_by_priority_level(priority_filter_tasks, "    medium   ")
-    ]
-    assert result == [5]
+    result = filter_by_priority_level(filter_tasks, "    medium   ")
+    assert task_ids(result) == [5]
 
 
 def test_whitespace_only_priority_returns_empty_list():
-    result = [
-        t["id"] for t in filter_by_priority_level(priority_filter_tasks, "       ")
-    ]
-    assert result == []
+    result = filter_by_priority_level(filter_tasks, "       ")
+    assert task_ids(result) == []
 
 
 def test_invalid_priority_returns_empty_list():
-    result = [
-        t["id"]
-        for t in filter_by_priority_level(priority_filter_tasks, "high priority")
-    ]
-    assert result == []
+    result = filter_by_priority_level(filter_tasks, "high priority")
+    assert task_ids(result) == []
 
 
 def test_empty_string_priority_returns_empty_list():
-    result = [t["id"] for t in filter_by_priority_level(priority_filter_tasks, "")]
-    assert result == []
+    result = filter_by_priority_level(filter_tasks, "")
+    assert task_ids(result) == []
