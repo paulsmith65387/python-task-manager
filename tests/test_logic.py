@@ -5,6 +5,7 @@ from logic import (
     filter_by_status,
     filter_by_priority_level,
     sort_tasks,
+    search_by_keywords,
 )
 
 sort_submenu_tasks = [
@@ -125,6 +126,37 @@ filter_tasks = [
     },
 ]
 
+keyword_search_tasks = [
+    {
+        "id": 1,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Check fridge and bread",
+    },
+    {
+        "id": 2,
+        "title": "Email dentist",
+        "status": "done",
+        "priority": "high",
+        "notes": "Ask about June check-up",
+    },
+    {
+        "id": 3,
+        "title": "Book train tickets",
+        "status": "in progress",
+        "priority": "high",
+        "notes": "London trip with family",
+    },
+    {
+        "id": 4,
+        "title": "Fix bike brake",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Rear brake rubbing slightly",
+    },
+]
+
 
 def test_blank_input_keeps_old_value():
     result = get_final_value("buy milk", "")
@@ -225,7 +257,7 @@ def test_input_with_whitespace():
     assert task_ids(result) == [3, 6]
 
 
-def test_whitespace_only_returns_empty_list():
+def test_whitespace_only_status_returns_empty_list():
     result = filter_by_status(filter_tasks, "       ")
     assert task_ids(result) == []
 
@@ -235,7 +267,7 @@ def test_invalid_status_returns_empty_list():
     assert task_ids(result) == []
 
 
-def test_empty_string_returns_empty_list():
+def test_empty_status_returns_empty_list():
     result = filter_by_status(filter_tasks, "")
     assert task_ids(result) == []
 
@@ -298,3 +330,39 @@ def test_sorting_by_priority():
 def test_sorting_by_invalid_sort_key_returns_none():
     result = sort_tasks(sort_submenu_tasks, "due date")
     assert result is None
+
+
+def test_search_finds_keyword_in_title():
+    result = search_by_keywords(keyword_search_tasks, "milk")
+    assert task_ids(result) == [1]
+
+
+def test_search_finds_keyword_in_notes():
+    result = search_by_keywords(keyword_search_tasks, "rubbing")
+    assert task_ids(result) == [4]
+
+
+def test_search_finds_multiple_matches():
+    result = search_by_keywords(keyword_search_tasks, "check")
+    assert task_ids(result) == [1, 2]
+
+
+def test_empty_search_query_returns_empty_list():
+    result = search_by_keywords(keyword_search_tasks, "")
+    assert task_ids(result) == []
+
+
+def test_whitespace_search_query_returns_empty_list():
+    result = search_by_keywords(keyword_search_tasks, "     ")
+    assert task_ids(result) == []
+
+
+def test_result_not_present_returns_empty_list():
+    result = search_by_keywords(keyword_search_tasks, "holiday")
+    assert task_ids(result) == []
+
+
+def test_search_is_case_insensitive():
+    result = search_by_keywords(keyword_search_tasks, "MILK")
+    assert task_ids(result) == [1]
+
