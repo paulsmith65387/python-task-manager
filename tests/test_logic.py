@@ -7,7 +7,9 @@ from logic import (
     sort_tasks,
     search_by_keywords,
     normalize_value,
+    validate_tasks,
 )
+
 
 sort_submenu_tasks = [
     {
@@ -126,6 +128,7 @@ filter_tasks = [
         "notes": "Test filter_by_status",
     },
 ]
+
 
 keyword_search_tasks = [
     {
@@ -391,3 +394,42 @@ def test_normalize_string_with_whitespace():
 def test_normalize_whitespace_only_returns_empty_string():
     result = normalize_value("       ")
     assert result == ""
+
+
+def test_validate_tasks_accepts_valid_task_list():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is True
+
+
+def test_validate_tasks_rejects_non_list_input():
+    tasks = {
+        "id": 1,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "medium",
+        "notes": "Check fridge",
+    }
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_rejects_missing_required_key():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "todo",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
