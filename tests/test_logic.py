@@ -6,6 +6,7 @@ from logic import (
     filter_by_priority_level,
     sort_tasks,
     search_by_keywords,
+    normalize_value,
 )
 
 sort_submenu_tasks = [
@@ -366,3 +367,27 @@ def test_search_is_case_insensitive():
     result = search_by_keywords(keyword_search_tasks, "MILK")
     assert task_ids(result) == [1]
 
+
+def test_normalize_leading_caps():
+    result = normalize_value("Title")
+    assert result == "title"
+
+
+def test_normalize_all_caps():
+    result = normalize_value("TITLE")
+    assert result == "title"
+
+
+def test_normalize_upper_lower_mixture():
+    result = normalize_value("TiTlE")
+    assert result == "title"
+
+
+def test_normalize_string_with_whitespace():
+    result = normalize_value("    title     ")
+    assert result == "title"
+
+
+def test_normalize_whitespace_only_returns_empty_string():
+    result = normalize_value("       ")
+    assert result == ""
