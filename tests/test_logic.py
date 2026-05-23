@@ -433,3 +433,38 @@ def test_validate_tasks_rejects_missing_required_key():
     ]
     result = validate_tasks(tasks)
     assert result is False
+
+
+def test_validate_tasks_rejects_task_that_is_not_dict():
+    tasks = ["Buy milk", "still to do", "High priority", "check fridge first"]
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_rejects_extra_key():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+            "sub-category": "shopping"
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_rejects_invalid_status():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "started",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
