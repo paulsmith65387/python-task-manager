@@ -496,3 +496,31 @@ def test_validate_tasks_accepts_normalized_status_and_priority():
     ]
     result = validate_tasks(tasks)
     assert result is True
+
+
+def test_validate_tasks_rejects_bool_id():
+    tasks = [
+        {
+            "id": True,
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_rejects_wrong_field_type():
+    tasks = [
+        {
+            "id": 1,
+            "title": 123,
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
