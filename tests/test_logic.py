@@ -468,3 +468,31 @@ def test_validate_tasks_rejects_invalid_status():
     ]
     result = validate_tasks(tasks)
     assert result is False
+
+
+def test_validate_tasks_rejects_invalid_priority():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": "important",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_accepts_normalized_status_and_priority():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "       ToDo       ",
+            "priority": "    hIgH    ",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is True
