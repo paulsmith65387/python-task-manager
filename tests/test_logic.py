@@ -524,3 +524,31 @@ def test_validate_tasks_rejects_wrong_field_type():
     ]
     result = validate_tasks(tasks)
     assert result is False
+
+
+def test_validate_tasks_rejects_non_string_status():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": None,
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_rejects_non_string_priority():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": 54321,
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
