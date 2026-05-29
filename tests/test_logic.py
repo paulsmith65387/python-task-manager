@@ -552,3 +552,30 @@ def test_validate_tasks_rejects_non_string_priority():
     ]
     result = validate_tasks(tasks)
     assert result is False
+
+def test_validate_tasks_rejects_non_string_notes():
+    tasks = [
+        {
+            "id": 1,
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": "medium",
+            "notes": True,
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
+
+
+def test_validate_tasks_rejects_non_integer_id():
+    tasks = [
+        {
+            "id": "1",
+            "title": "Buy milk",
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False
