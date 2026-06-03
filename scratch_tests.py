@@ -110,7 +110,7 @@ validate_cases = [
                 "notes": "Check fridge",
             }
         ],
-        "expected": True,
+        "expected": False,
     },
     {
         "name": "invalid priority",
@@ -136,7 +136,7 @@ validate_cases = [
                 "notes": "Check fridge",
             }
         ],
-        "expected": True,
+        "expected": False,
     },
     {
         "name": "missing priority key",

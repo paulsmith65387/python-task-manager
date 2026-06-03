@@ -34,9 +34,9 @@ def validate_tasks(tasks):
             if not isinstance(t[key], expected_type):
                 return False
 
-        if normalize_value(t["status"]) not in ALLOWED_STATUSES:
+        if t["status"] not in ALLOWED_STATUSES:
             return False
-        if normalize_value(t["priority"]) not in ALLOWED_PRIORITY_LEVELS:
+        if t["priority"] not in ALLOWED_PRIORITY_LEVELS:
             return False
 
     return True

@@ -484,7 +484,7 @@ def test_validate_tasks_rejects_invalid_priority():
     assert result is False
 
 
-def test_validate_tasks_accepts_normalized_status_and_priority():
+def test_validate_tasks_rejects_normalized_status_and_priority():
     tasks = [
         {
             "id": 1,
@@ -495,7 +495,7 @@ def test_validate_tasks_accepts_normalized_status_and_priority():
         }
     ]
     result = validate_tasks(tasks)
-    assert result is True
+    assert result is False
 
 
 def test_validate_tasks_rejects_bool_id():
@@ -552,6 +552,7 @@ def test_validate_tasks_rejects_non_string_priority():
     ]
     result = validate_tasks(tasks)
     assert result is False
+
 
 def test_validate_tasks_rejects_non_string_notes():
     tasks = [
