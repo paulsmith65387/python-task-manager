@@ -582,7 +582,7 @@ def test_validate_tasks_rejects_non_integer_id():
     assert result is False
 
 
-def test_validate_tasks_accepts_empty_title_string():
+def test_validate_tasks_rejects_empty_title_string():
     tasks = [
         {
             "id": 1,
@@ -593,4 +593,18 @@ def test_validate_tasks_accepts_empty_title_string():
         }
     ]
     result = validate_tasks(tasks)
-    assert result is True
+    assert result is False
+
+
+def test_validate_tasks_rejects_whitespace_only_title():
+    tasks = [
+        {
+            "id": 1,
+            "title": "       ",
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is False

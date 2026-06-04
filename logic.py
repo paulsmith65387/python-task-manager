@@ -38,6 +38,8 @@ def validate_tasks(tasks):
             return False
         if t["priority"] not in ALLOWED_PRIORITY_LEVELS:
             return False
+        if t["title"].strip() == "":
+            return False
 
     return True
 
