@@ -608,3 +608,17 @@ def test_validate_tasks_rejects_whitespace_only_title():
     ]
     result = validate_tasks(tasks)
     assert result is False
+
+
+def test_validate_tasks_accepts_title_with_surrounding_whitespace():
+    tasks = [
+        {
+            "id": 1,
+            "title": "   Buy milk     ",
+            "status": "todo",
+            "priority": "medium",
+            "notes": "Check fridge",
+        }
+    ]
+    result = validate_tasks(tasks)
+    assert result is True
