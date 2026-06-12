@@ -1,0 +1,131 @@
+from logic import filter_by_priority_level, filter_by_status
+
+
+filter_tasks = [
+    {
+        "id": 1,
+        "title": "Buy milk",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Check fridge and bread",
+    },
+    {
+        "id": 2,
+        "title": "Email dentist",
+        "status": "done",
+        "priority": "high",
+        "notes": "Ask about June check-up",
+    },
+    {
+        "id": 3,
+        "title": "Book train tickets",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "London trip with family",
+    },
+    {
+        "id": 4,
+        "title": "Fix bike brake",
+        "status": "todo",
+        "priority": "high",
+        "notes": "Rear brake rubbing slightly",
+    },
+    {
+        "id": 5,
+        "title": "Submit meter reading",
+        "status": "done",
+        "priority": "medium",
+        "notes": "Electricity account",
+    },
+    {
+        "id": 6,
+        "title": "Plan coding session",
+        "status": "in progress",
+        "priority": "low",
+        "notes": "Test filter_by_status",
+    },
+]
+
+
+def task_ids(task_list):
+    return [t["id"] for t in task_list]
+
+
+def test_filter_todo_tasks():
+    result = filter_by_status(filter_tasks, "todo")
+    assert task_ids(result) == [1, 4]
+
+
+def test_filter_done_tasks():
+    result = filter_by_status(filter_tasks, "done")
+    assert task_ids(result) == [2, 5]
+
+
+def test_filter_in_progress_tasks():
+    result = filter_by_status(filter_tasks, "in progress")
+    assert task_ids(result) == [3, 6]
+
+
+def test_upper_case_input_works():
+    result = filter_by_status(filter_tasks, "TODO")
+    assert task_ids(result) == [1, 4]
+
+
+def test_input_with_whitespace():
+    result = filter_by_status(filter_tasks, "    in progress   ")
+    assert task_ids(result) == [3, 6]
+
+
+def test_whitespace_only_status_returns_empty_list():
+    result = filter_by_status(filter_tasks, "       ")
+    assert task_ids(result) == []
+
+
+def test_invalid_status_returns_empty_list():
+    result = filter_by_status(filter_tasks, "urgent")
+    assert task_ids(result) == []
+
+
+def test_empty_status_returns_empty_list():
+    result = filter_by_status(filter_tasks, "")
+    assert task_ids(result) == []
+
+
+def test_filter_low_priority_tasks():
+    result = filter_by_priority_level(filter_tasks, "low")
+    assert task_ids(result) == [3, 6]
+
+
+def test_filter_medium_priority_tasks():
+    result = filter_by_priority_level(filter_tasks, "medium")
+    assert task_ids(result) == [5]
+
+
+def test_filter_high_priority_tasks():
+    result = filter_by_priority_level(filter_tasks, "high")
+    assert task_ids(result) == [1, 2, 4]
+
+
+def test_upper_case_priority_works():
+    result = filter_by_priority_level(filter_tasks, "LOW")
+    assert task_ids(result) == [3, 6]
+
+
+def test_input_priority_with_whitespace():
+    result = filter_by_priority_level(filter_tasks, "    medium   ")
+    assert task_ids(result) == [5]
+
+
+def test_whitespace_only_priority_returns_empty_list():
+    result = filter_by_priority_level(filter_tasks, "       ")
+    assert task_ids(result) == []
+
+
+def test_invalid_priority_returns_empty_list():
+    result = filter_by_priority_level(filter_tasks, "high priority")
+    assert task_ids(result) == []
+
+
+def test_empty_string_priority_returns_empty_list():
+    result = filter_by_priority_level(filter_tasks, "")
+    assert task_ids(result) == []

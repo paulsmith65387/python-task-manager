@@ -16,8 +16,7 @@ It uses separate modules, JSON persistence, and command dispatch.
 - Search tasks by title and notes
 - Sort tasks by title, status, or priority
 - Save and load tasks from JSON
-- Includes scratch tests for core logic
-- Initial pytest tests
+- Suite of pytest tests
 
 ## Project Structure
 
@@ -25,9 +24,8 @@ It uses separate modules, JSON persistence, and command dispatch.
 - `logic.py` - task operations, validation, search, filtering, sorting, and update behaviour
 - `ui.py` - input and display helper functions
 - `storage.py` - JSON persistence
-- `scratch_tests.py` - informal logic test harness
 - `.gitignore` - excludes local runtime data such as `tasks.json`
-- `tests/test_logic.py` - initial `pytest` tests
+- `tests` - `pytest` tests
 
 ## What I Have Learned and Practised
 
@@ -39,9 +37,9 @@ The app has grown from an initial create, view, and delete program into somethin
 
 I have added submenus to simplify filtering, field updating, and sorting. These submenus allow tasks to be filtered by status or priority, updated by status or priority, and sorted by title, status, or priority.
 
-This has given me practice with schema changes, menu refactoring, reusable input helpers, domain-specific sorting rules, scratch testing, and avoiding menu bloat.
+This has given me practice with schema changes, menu refactoring, reusable input helpers, domain-specific sorting rules, and avoiding menu bloat.
 
-I have also added a scratch test module to check expected behaviour in core logic functions and have begun using Git and GitHub to track changes.
+I have also added a tests folder with pytest tests to check expected behaviour in core logic functions, and have begun using Git and GitHub to track changes.
 
 ## How to Run
 
@@ -55,7 +53,6 @@ A local `tasks.json` file is created automatically when the app runs. This file 
 
 ## Future Improvements
 
-- Convert remaining scratch tests to `pytest`
 - Add due dates
 - Improve error messages
 - Add terminal examples or screenshots
